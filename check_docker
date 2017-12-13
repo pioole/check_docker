@@ -618,8 +618,9 @@ def perform_checks(raw_args):
                     unknown("No containers names found matching criteria")
                 else:
                     for container_group in containers_groups:
+                        container_group = [(get_state(container)['StartedAt'], container) for container in container_group if get_container_info(container).get('State', None) is not None]
                         container_group = sorted(container_group, reverse=True)
-                        container = container_group[0]
+                        container = container_group[0][1]
 
                         # Check status
                         if args.status:
